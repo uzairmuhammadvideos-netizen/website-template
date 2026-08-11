@@ -1,3 +1,4 @@
+<meta charset="UTF-8" />
 <title>InnedAI — AI Grading &amp; Classroom Intelligence</title>
 <style>
   :root {
@@ -187,11 +188,6 @@
   }
   .phone-screen .ph-caption { font-size: 0.82rem; color: var(--ink-muted); max-width: 15rem; }
 
-  .shot-caption {
-    text-align: center; font-family: var(--mono); font-size: 0.72rem; color: var(--ink-faint);
-    margin-top: 0.9rem; letter-spacing: 0.02em;
-  }
-
   /* ---------- sections ---------- */
   section { padding: 5.5rem 0; }
   section.tight { padding: 4rem 0; }
@@ -222,6 +218,15 @@
   .platform-card.student { border-color: color-mix(in srgb, var(--student) 30%, var(--card-border)); }
   .platform-card.admin { border-color: color-mix(in srgb, var(--warn) 30%, var(--card-border)); }
   .platform-card.tutor { border-color: color-mix(in srgb, var(--tutor) 30%, var(--card-border)); }
+
+  .platform-card.admin-wide { grid-column: 1 / -1; flex-direction: row; align-items: center; gap: 2.5rem; }
+  .admin-text { flex: 1 1 320px; }
+  .admin-feat-list { margin-top: 1.3rem; }
+  .admin-mockup { flex: 1 1 480px; }
+  .admin-browser { max-width: 900px; }
+  @media (max-width: 860px) {
+    .platform-card.admin-wide { flex-direction: column; }
+  }
   .role-tag {
     display: inline-flex; align-self: flex-start; font-family: var(--mono); font-size: 0.7rem;
     letter-spacing: 0.1em; text-transform: uppercase; padding: 0.35rem 0.7rem; border-radius: 999px;
@@ -318,10 +323,16 @@
     color: var(--ink-faint);
   }
   .field input, .field select, .field textarea {
-    font-family: var(--sans); font-size: 0.95rem; color: var(--ink);
+    font-family: var(--sans); font-size: 0.95rem; color: var(--ink); line-height: 1.4;
     background: color-mix(in srgb, var(--ink) 5%, transparent);
     border: 1px solid var(--card-border); border-radius: 10px;
     padding: 0.7rem 0.85rem; outline: none;
+  }
+  .field select {
+    -webkit-appearance: none; -moz-appearance: none; appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23767c8c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 0.85rem center; background-size: 0.85rem;
+    padding-right: 2.4rem;
   }
   .field input::placeholder, .field textarea::placeholder { color: var(--ink-faint); }
   .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--accent); }
@@ -354,6 +365,68 @@
     .why-grid { grid-template-columns: 1fr; }
     .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
     .nav-links { display: none; }
+  }
+
+  /* ---------- product tour (expandable) ---------- */
+  #tour[hidden] { display: none; }
+  .index-rail { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.75rem; }
+  .index-rail a {
+    font-family: var(--mono); font-size: 0.76rem; color: var(--ink-muted);
+    padding: 0.4rem 0.8rem; border-radius: 999px; border: 1px solid var(--card-border);
+  }
+  .index-rail a:hover { color: var(--ink); border-color: var(--accent); }
+
+  .spotlight { padding: 5rem 0; border-bottom: 1px solid var(--card-border); }
+  .spotlight-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: center; }
+  .spotlight.reverse .spotlight-inner { direction: rtl; }
+  .spotlight.reverse .spotlight-inner > * { direction: ltr; }
+
+  .feat-index { font-family: var(--mono); font-size: 0.78rem; color: var(--ink-faint); margin-bottom: 0.9rem; }
+
+  .tag-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .tag {
+    font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.03em;
+    padding: 0.3rem 0.65rem; border-radius: 999px; background: var(--card); border: 1px solid var(--card-border);
+    color: var(--ink-muted);
+  }
+  .tag.accent { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 35%, var(--card-border)); background: var(--accent-soft); }
+  .tag.student { color: var(--student); border-color: color-mix(in srgb, var(--student) 35%, var(--card-border)); background: var(--student-soft); }
+
+  /* clickable tags that swap the adjacent mockup image */
+  button.tag {
+    appearance: none; -webkit-appearance: none; cursor: pointer; line-height: 1.3;
+  }
+  button.tag:hover { color: var(--ink); border-color: color-mix(in srgb, var(--accent) 35%, var(--card-border)); }
+  button.tag.active {
+    color: var(--ink); border-color: var(--accent); background: var(--accent-soft);
+  }
+
+  .browser {
+    width: 100%; max-width: 420px; border-radius: 14px; overflow: hidden;
+    border: 1px solid var(--card-border); box-shadow: 0 30px 60px -25px rgba(0,0,0,0.5);
+    background: var(--surface);
+  }
+  .browser-bar { display: flex; align-items: center; gap: 0.4rem; padding: 0.7rem 0.9rem; border-bottom: 1px solid var(--card-border); }
+  .browser-bar span { width: 9px; height: 9px; border-radius: 50%; background: var(--card-border); }
+  .browser-body { position: relative; aspect-ratio: 16/10.5; padding: 0.85rem; }
+  .browser-body .shot-img { border-radius: 8px; }
+  .platform-card .browser-body .shot-img { object-fit: contain; background: var(--surface); }
+
+  .screen-fill {
+    height: 100%; border-radius: 20px; border: 1px dashed var(--card-border);
+    background: linear-gradient(155deg, var(--accent-soft), transparent 55%), var(--card);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    gap: 0.6rem; padding: 1.4rem;
+  }
+  .browser .screen-fill { border-radius: 8px; }
+  .screen-fill .ph-icon { width: 30px; height: 30px; color: var(--ink-faint); }
+  .screen-fill .ph-label {
+    font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint);
+  }
+  .screen-fill .ph-caption { font-size: 0.8rem; color: var(--ink-muted); max-width: 15rem; }
+
+  @media (max-width: 860px) {
+    .spotlight-inner, .spotlight.reverse .spotlight-inner { grid-template-columns: 1fr; direction: ltr; }
   }
 </style>
 
@@ -388,7 +461,7 @@
       <p class="lede">InnedAI reads a stack of handwritten tests, grades every question against a real rubric (including full free-response essays), and hands teachers their evenings back. Built for the paper-and-pencil classrooms that never went away.</p>
       <div class="hero-ctas">
         <a class="btn btn-primary" href="#contact">Contact Us</a>
-        <a class="btn btn-ghost" href="product.html">See the Full Product →</a>
+        <a class="btn btn-ghost" href="#tour" data-toggle-tour>See the Full Product →</a>
       </div>
       <div class="trust-row">
         <span>Reads handwriting, not just bubbles</span>
@@ -406,7 +479,6 @@
             <div class="ph-caption">Camera scan of a paper answer sheet, mid-grade, with confidence badges on each question</div>
           </div>
         </div>
-        <div class="shot-caption">Drop in: scan → live grading queue</div>
       </div>
     </div>
   </div>
@@ -460,11 +532,22 @@
           <li><span class="dot"></span><div><strong>Build a test in minutes</strong><span class="desc">From a textbook unit, a topic, or an old paper exam.</span></div></li>
           <li><span class="dot"></span><div><strong>One gradebook, not two</strong><span class="desc">Grades sync straight to Google Classroom.</span></div></li>
         </ul>
-        <div class="shot-chip">
-          <img class="shot-img" src="assets/screenshots/teacher-review-grading.png" alt="Grading queue and review screen" onerror="this.style.display='none'" />
-          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M7 9h10M7 13h6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-          <div class="ph-label">Screenshot</div>
-          <div class="ph-caption">Grading queue + review screen</div>
+        <div class="tag-row" data-tag-group style="margin-bottom:-0.4rem;">
+          <button type="button" class="tag active" data-shot="assets/screenshots/teacher-review-grading.png" data-caption="Home dashboard, with a pending review alert">Dashboard</button>
+          <button type="button" class="tag" data-shot="assets/screenshots/teacher-review-grading-1.png" data-caption="Review queue: FRQ answers flagged by AI">Review Queue</button>
+          <button type="button" class="tag" data-shot="assets/screenshots/teacher-review-grading-2.png" data-caption="Reviewing a flagged answer">FRQ Review</button>
+        </div>
+        <div class="mockup-col">
+          <div>
+            <div class="phone">
+              <img class="shot-img" src="assets/screenshots/teacher-review-grading.png" alt="Home dashboard, with a pending review alert" onerror="this.style.display='none'" />
+              <div class="phone-screen">
+                <svg class="ph-icon" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M7 9h10M7 13h6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+                <div class="ph-label">Screenshot</div>
+                <div class="ph-caption">Home dashboard, with a pending review alert</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -479,11 +562,17 @@
           <li><span class="dot"></span><div><strong>Grade practice work instantly</strong><span class="desc">Snap a photo of a worksheet and get it scored with feedback.</span></div></li>
           <li><span class="dot"></span><div><strong>Track one student over time</strong><span class="desc">See progress session to session, without a classroom's worth of setup.</span></div></li>
         </ul>
-        <div class="shot-chip">
-          <img class="shot-img" src="assets/screenshots/tutor-practice-builder.png" alt="Custom worksheet builder and progress over time" onerror="this.style.display='none'" />
-          <svg viewBox="0 0 24 24" fill="none"><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.4"/></svg>
-          <div class="ph-label">Screenshot</div>
-          <div class="ph-caption">Custom worksheet builder + progress over time</div>
+        <div class="mockup-col">
+          <div>
+            <div class="phone">
+              <img class="shot-img" src="assets/screenshots/tutor-practice-builder.png" alt="Custom worksheet builder and progress over time" onerror="this.style.display='none'" />
+              <div class="phone-screen">
+                <svg class="ph-icon" viewBox="0 0 24 24" fill="none"><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.4"/></svg>
+                <div class="ph-label">Screenshot</div>
+                <div class="ph-caption">Custom worksheet builder + progress over time</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -498,51 +587,42 @@
           <li><span class="dot"></span><div><strong>Study from your own test</strong><span class="desc">Flashcards generated from the exact material you were tested on.</span></div></li>
           <li><span class="dot"></span><div><strong>Never blocked by language</strong><span class="desc">Assessments translate automatically for ELL students.</span></div></li>
         </ul>
-        <div class="shot-chip">
-          <img class="shot-img" src="assets/screenshots/student-results-feedback.png" alt="Results and per-question feedback" onerror="this.style.display='none'" />
-          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.4"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-          <div class="ph-label">Screenshot</div>
-          <div class="ph-caption">Results + per-question feedback</div>
+        <div class="mockup-col">
+          <div>
+            <div class="phone">
+              <img class="shot-img" src="assets/screenshots/student-results-feedback.png" alt="Results and per-question feedback" onerror="this.style.display='none'" />
+              <div class="phone-screen">
+                <svg class="ph-icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.4"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+                <div class="ph-label">Screenshot</div>
+                <div class="ph-caption">Results + per-question feedback</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="platform-card admin" id="for-admin">
-        <div>
+      <div class="platform-card admin admin-wide" id="for-admin">
+        <div class="admin-text">
           <span class="role-tag admin">For Admin</span>
           <h3>See the Whole School at Once</h3>
           <p class="sub">Every teacher, every class, every score, without asking anyone for a spreadsheet.</p>
+          <ul class="feat-list admin-feat-list">
+            <li><span class="dot"></span><div><strong>Real-time school performance</strong><span class="desc">Average scores and grade distribution, live across every class.</span></div></li>
+            <li><span class="dot"></span><div><strong>One directory</strong><span class="desc">Every teacher and class, searchable, with rollup stats.</span></div></li>
+            <li><span class="dot"></span><div><strong>Onboard a teacher with one code</strong><span class="desc">School invite codes provision new accounts instantly.</span></div></li>
+          </ul>
         </div>
-        <ul class="feat-list">
-          <li><span class="dot"></span><div><strong>Real-time school performance</strong><span class="desc">Average scores and grade distribution, live across every class.</span></div></li>
-          <li><span class="dot"></span><div><strong>One directory</strong><span class="desc">Every teacher and class, searchable, with rollup stats.</span></div></li>
-          <li><span class="dot"></span><div><strong>Onboard a teacher with one code</strong><span class="desc">School invite codes provision new accounts instantly.</span></div></li>
-        </ul>
-        <div class="shot-chip has-dash">
-          <div class="mini-dash">
-            <div class="mini-dash-head">Demo Public School · Overview</div>
-            <div class="mds-stats">
-              <div class="mds-stat"><span class="mds-val">6</span><span class="mds-lbl">Teachers</span></div>
-              <div class="mds-stat"><span class="mds-val">214</span><span class="mds-lbl">Students</span></div>
-              <div class="mds-stat"><span class="mds-val">76%</span><span class="mds-lbl">Avg</span></div>
-            </div>
-            <div class="mini-donut-row">
-              <div class="mini-donut-wrap">
-                <svg viewBox="0 0 84 84" width="84" height="84">
-                  <circle cx="42" cy="42" r="30" fill="none" stroke="var(--card-border)" stroke-width="12"/>
-                  <circle cx="42" cy="42" r="30" fill="none" stroke="var(--student)" stroke-width="12" stroke-dasharray="34.8 153.7" transform="rotate(-90 42 42)"/>
-                  <circle cx="42" cy="42" r="30" fill="none" stroke="var(--accent)" stroke-width="12" stroke-dasharray="53.3 135.2" stroke-dashoffset="-34.8" transform="rotate(-90 42 42)"/>
-                  <circle cx="42" cy="42" r="30" fill="none" stroke="var(--tutor)" stroke-width="12" stroke-dasharray="62.5 126" stroke-dashoffset="-88.1" transform="rotate(-90 42 42)"/>
-                  <circle cx="42" cy="42" r="30" fill="none" stroke="var(--warn)" stroke-width="12" stroke-dasharray="28.7 159.8" stroke-dashoffset="-150.6" transform="rotate(-90 42 42)"/>
-                  <circle cx="42" cy="42" r="30" fill="none" stroke="var(--danger)" stroke-width="12" stroke-dasharray="9.2 179.3" stroke-dashoffset="-179.3" transform="rotate(-90 42 42)"/>
-                </svg>
-                <div class="mini-donut-center"><span>184</span><span style="font-size:0.55rem;color:var(--ink-faint);font-weight:400;">subs</span></div>
-              </div>
-              <div class="mini-legend">
-                <div class="mini-legend-row"><span class="mini-legend-dot" style="background:var(--student)"></span>A · 34</div>
-                <div class="mini-legend-row"><span class="mini-legend-dot" style="background:var(--accent)"></span>B · 52</div>
-                <div class="mini-legend-row"><span class="mini-legend-dot" style="background:var(--tutor)"></span>C · 61</div>
-                <div class="mini-legend-row"><span class="mini-legend-dot" style="background:var(--warn)"></span>D · 28</div>
-                <div class="mini-legend-row"><span class="mini-legend-dot" style="background:var(--danger)"></span>F · 9</div>
+        <div class="mockup-col admin-mockup">
+          <div style="width:100%;">
+            <div class="browser admin-browser">
+              <div class="browser-bar"><span></span><span></span><span></span></div>
+              <div class="browser-body" style="aspect-ratio:2438/1734;">
+                <img class="shot-img" src="assets/screenshots/analytics-new.png" alt="School-wide performance dashboard" onerror="this.style.display='none'" />
+                <div class="screen-fill">
+                  <svg class="ph-icon" viewBox="0 0 24 24" fill="none"><path d="M4 19V9M11 19V5M18 19v-7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+                  <div class="ph-label">Screenshot</div>
+                  <div class="ph-caption">School-wide performance dashboard</div>
+                </div>
               </div>
             </div>
           </div>
@@ -551,6 +631,183 @@
     </div>
   </div>
 </section>
+
+<div id="tour" hidden>
+  <div class="wrap">
+    <div class="section-head center">
+      <div class="eyebrow" style="justify-content:center;">The Full Tour</div>
+      <h2 class="h2">Every Screen, In Detail.</h2>
+      <p class="body-lg">From the first photo of a paper test to a released grade in a student's hand: every step of the pipeline, and what it looks like along the way.</p>
+    </div>
+    <div class="index-rail" style="justify-content:center;">
+      <a href="#scan-grade">Scan &amp; Grade</a>
+      <a href="#build">Build an Assessment</a>
+      <a href="#lessons">Lesson Plans</a>
+      <a href="#flashcards">Flashcards</a>
+      <a href="#reach">Reach Every Student</a>
+      <a href="#admin-tour">School Admin</a>
+    </div>
+  </div>
+
+  <section class="spotlight" id="scan-grade">
+    <div class="wrap spotlight-inner">
+      <div>
+        <div class="feat-index">01 · Grading</div>
+        <h2 class="h2">Photograph a Stack. Get It Graded.</h2>
+        <p class="body-lg">Bulk-scan a class set of paper answer sheets with automatic student identification. InnedAI grades multiple choice, short answer, and full free-response essays in one pass, scoring against a rubric with partial credit and flagging anything worth a second look.</p>
+        <div class="tag-row" data-tag-group>
+          <button type="button" class="tag active" data-shot="assets/screenshots/sorry.png" data-caption="Student result breakdown with per-question feedback">Student feedback</button>
+          <button type="button" class="tag" data-shot="assets/screenshots/scan-confidence-scoring.png" data-caption="Confidence scoring on each graded question">Confidence scoring</button>
+        </div>
+      </div>
+      <div class="mockup-col">
+        <div>
+          <div class="phone">
+            <img class="shot-img" src="assets/screenshots/sorry.png" alt="Student result breakdown with per-question feedback" onerror="this.style.display='none'" />
+            <div class="screen-fill">
+              <svg class="ph-icon" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.4"/><circle cx="8.5" cy="10.5" r="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M3 16l4.5-4 3 3L16 10l5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <div class="ph-label">Screenshot</div>
+              <div class="ph-caption">Student result breakdown with per-question feedback</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="spotlight reverse" id="build">
+    <div class="wrap spotlight-inner">
+      <div>
+        <div class="feat-index">02 · Content Creation</div>
+        <h2 class="h2">Build a New Assessment in Seconds.</h2>
+        <p class="body-lg">Generate a full test from a textbook unit, a topic, or a quick prompt, complete with distractors, explanations, and point values. Or pull straight from your own material bank, picking exactly which items to include.</p>
+        <div class="tag-row" data-tag-group>
+          <button type="button" class="tag accent active" data-shot="assets/screenshots/build-assessment-generated.png" data-caption="Assessment builder with generated questions ready to assign">Textbook-aware generation</button>
+          <button type="button" class="tag" data-shot="assets/screenshots/materials.png" data-caption="Building an assessment from selected material bank items">Generate from materials</button>
+        </div>
+      </div>
+      <div class="mockup-col">
+        <div>
+          <div class="phone">
+            <img class="shot-img" src="assets/screenshots/build-assessment-generated.png" alt="Assessment builder with generated questions ready to assign" onerror="this.style.display='none'" />
+            <div class="screen-fill">
+              <svg class="ph-icon" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+              <div class="ph-label">Screenshot</div>
+              <div class="ph-caption">Assessment builder with generated questions ready to assign</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="spotlight" id="lessons">
+    <div class="wrap spotlight-inner">
+      <div>
+        <div class="feat-index">03 · Planning</div>
+        <h2 class="h2">A Full Lesson Plan, on Demand.</h2>
+        <p class="body-lg">From just a subject, grade, and topic, get a complete, timed lesson plan: objectives, activities, a formative-assessment strategy, differentiation notes, and standards alignment. Chat with it to adjust length, difficulty, or focus.</p>
+        <div class="tag-row" data-tag-group>
+          <button type="button" class="tag active" data-shot="assets/screenshots/lesson-plan-calendar.png" data-caption="Lesson plan calendar + generated plan detail">AI chat editing</button>
+          <button type="button" class="tag" data-shot="assets/screenshots/lesson-plan-eek.png" data-caption="Learning objectives and materials, with AI adjust shortcuts">Standards-aligned</button>
+        </div>
+      </div>
+      <div class="mockup-col">
+        <div>
+          <div class="phone">
+            <img class="shot-img" src="assets/screenshots/lesson-plan-calendar.png" alt="Lesson plan calendar and generated plan detail" onerror="this.style.display='none'" />
+            <div class="screen-fill">
+              <svg class="ph-icon" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M4 9h16M9 4v16" stroke="currentColor" stroke-width="1.4"/></svg>
+              <div class="ph-label">Screenshot</div>
+              <div class="ph-caption">Lesson plan calendar + generated plan detail</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="spotlight reverse" id="flashcards">
+    <div class="wrap spotlight-inner">
+      <div>
+        <div class="feat-index">04 · Studying</div>
+        <h2 class="h2">Every Test Becomes a Study Deck.</h2>
+        <p class="body-lg">Students flip through AI-generated flashcards pulled straight from their own assessment or textbook unit, with a simple spaced-practice loop and no extra authoring required from the teacher.</p>
+        <div class="tag-row" data-tag-group>
+          <button type="button" class="tag student active" data-shot="assets/screenshots/flashcards-study-session.png" data-caption="Flashcard study session, mid-flip">Student-facing</button>
+          <button type="button" class="tag" data-shot="assets/screenshots/flashcards-spaced-practice.png" data-caption="Spaced-practice review loop">Spaced practice</button>
+        </div>
+      </div>
+      <div class="mockup-col">
+        <div>
+          <div class="phone">
+            <img class="shot-img" src="assets/screenshots/flashcards-study-session.png" alt="Flashcard study session, mid-flip" onerror="this.style.display='none'" />
+            <div class="screen-fill">
+              <svg class="ph-icon" viewBox="0 0 24 24" fill="none"><rect x="4" y="6" width="13" height="9" rx="1.5" stroke="currentColor" stroke-width="1.4"/><rect x="7" y="9" width="13" height="9" rx="1.5" stroke="currentColor" stroke-width="1.4"/></svg>
+              <div class="ph-label">Screenshot</div>
+              <div class="ph-caption">Flashcard study session, mid-flip</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="spotlight" id="reach">
+    <div class="wrap spotlight-inner">
+      <div>
+        <div class="feat-index">05 · Accessibility</div>
+        <h2 class="h2">Reach Every Student, Not Just Some.</h2>
+        <p class="body-lg">Every generated lesson plan comes with built-in differentiation: IEP accommodations, extension challenges for advanced learners, and ELL supports, worked out automatically instead of bolted on after the fact.</p>
+        <div class="tag-row" data-tag-group>
+          <button type="button" class="tag accent active" data-shot="assets/screenshots/restart.png" data-caption="Differentiation notes: IEP accommodations, ELL supports, and extension challenges">IEP differentiation</button>
+        </div>
+      </div>
+      <div class="mockup-col">
+        <div>
+          <div class="phone">
+            <img class="shot-img" src="assets/screenshots/restart.png" alt="Differentiation notes: IEP accommodations, ELL supports, and extension challenges" onerror="this.style.display='none'" />
+            <div class="screen-fill">
+              <svg class="ph-icon" viewBox="0 0 24 24" fill="none"><path d="M5 8h6M5 12h4M13 4l6 16M15 15h5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+              <div class="ph-label">Screenshot</div>
+              <div class="ph-caption">Differentiation notes: IEP accommodations, ELL supports, and extension challenges</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="spotlight reverse" id="admin-tour" style="border-bottom: none;">
+    <div class="wrap spotlight-inner">
+      <div>
+        <div class="feat-index">06 · For Districts</div>
+        <h2 class="h2">One Dashboard for the Whole School.</h2>
+        <p class="body-lg">Every teacher, every class, every score, rolled up into a single admin console, plus a shared incident log so behavioral, academic, and safety issues get tracked and resolved instead of living in someone's inbox.</p>
+        <div class="tag-row" data-tag-group>
+          <button type="button" class="tag accent active" data-shot="assets/screenshots/admin-mobile.png" data-caption="Admin dashboard: school-wide performance, grade distribution, and directories">Admin console</button>
+          <button type="button" class="tag" data-shot="assets/screenshots/admin-inciddent.png" data-caption="Reporting and tracking incidents across the school">Incidents</button>
+        </div>
+      </div>
+      <div class="mockup-col">
+        <div>
+          <div class="phone">
+            <img class="shot-img" src="assets/screenshots/admin-mobile.png" alt="Admin dashboard: school-wide performance and directory" onerror="this.style.display='none'" />
+            <div class="screen-fill">
+              <svg class="ph-icon" viewBox="0 0 24 24" fill="none"><path d="M4 19V9M11 19V5M18 19v-7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+              <div class="ph-label">Screenshot</div>
+              <div class="ph-caption">Admin dashboard: school-wide performance and directory</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap" style="text-align:center; padding: 3rem 0 0.5rem;">
+    <button type="button" class="btn btn-ghost btn-sm" data-toggle-tour>Collapse Full Product Tour ↑</button>
+  </div>
+</div>
 
 <section id="districts">
   <div class="wrap">
@@ -595,7 +852,7 @@
         <div class="field-row">
           <div class="field">
             <label for="cf-name">Name</label>
-            <input id="cf-name" name="name" type="text" placeholder="Jamie Rivera" required />
+            <input id="cf-name" name="name" type="text" required />
           </div>
           <div class="field">
             <label for="cf-email">Email</label>
@@ -617,7 +874,6 @@
           <textarea id="cf-message" name="message" rows="4" placeholder="What are you hoping to use InnedAI for?" required></textarea>
         </div>
         <button type="submit" class="btn btn-primary contact-submit">Contact Us</button>
-        <p class="contact-note">Opens your email client, addressed to info@inned.ai. Nothing is sent from this page directly.</p>
       </form>
     </div>
   </div>
@@ -640,6 +896,73 @@
       window.location.href = 'mailto:info@inned.ai?subject=' + subject + '&body=' + body;
     });
   })();
+
+  (function () {
+    var tour = document.getElementById('tour');
+    if (!tour) return;
+    var toggleButtons = document.querySelectorAll('[data-toggle-tour]');
+
+    function setButtonLabels(open) {
+      toggleButtons.forEach(function (btn) {
+        btn.textContent = open ? 'Collapse Full Product Tour ↑' : 'See the Full Product →';
+      });
+    }
+
+    function openTour(scrollToId) {
+      tour.hidden = false;
+      setButtonLabels(true);
+      var target = scrollToId ? document.getElementById(scrollToId) : tour;
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function closeTour() {
+      tour.hidden = true;
+      setButtonLabels(false);
+    }
+
+    toggleButtons.forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (tour.hidden) { openTour(); } else { closeTour(); }
+      });
+    });
+
+    document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+      if (a.hasAttribute('data-toggle-tour')) return;
+      var id = a.getAttribute('href').slice(1);
+      var el = document.getElementById(id);
+      if (el && tour.contains(el)) {
+        a.addEventListener('click', function (e) {
+          e.preventDefault();
+          openTour(id);
+        });
+      }
+    });
+  })();
+
+  (function () {
+    document.querySelectorAll('[data-tag-group]').forEach(function (row) {
+      var buttons = row.querySelectorAll('button.tag[data-shot]');
+      if (buttons.length < 2) return;
+      var container = row.closest('.spotlight-inner') || row.closest('.platform-card');
+      if (!container) return;
+      var img = container.querySelector('.shot-img');
+      var caption = container.querySelector('.ph-caption');
+      buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          if (btn.classList.contains('active')) return;
+          buttons.forEach(function (b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          var shot = btn.getAttribute('data-shot');
+          var cap = btn.getAttribute('data-caption') || btn.textContent;
+          img.style.display = '';
+          img.src = shot;
+          img.alt = cap;
+          if (caption) caption.textContent = cap;
+        });
+      });
+    });
+  })();
 </script>
 
 <footer>
@@ -659,10 +982,10 @@
       <div class="footer-col">
         <h4>Product</h4>
         <ul>
-          <li><a href="product.html#scan-grade">Teacher App</a></li>
+          <li><a href="#scan-grade">Teacher App</a></li>
           <li><a href="#for-tutor">Tutor Toolkit</a></li>
-          <li><a href="product.html#reach">Student Portal</a></li>
-          <li><a href="product.html#admin">For Districts</a></li>
+          <li><a href="#reach">Student Portal</a></li>
+          <li><a href="#admin-tour">For Districts</a></li>
         </ul>
       </div>
       <div class="footer-col">
